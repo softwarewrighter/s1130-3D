@@ -43,10 +43,10 @@ l:d_iskParts := { z ->
   t := t c_at (("disk ready lamp", -0.080 -0.195 0.005, 0.006 0.006 0.006, flat, co:lampGreen, 3.0) bp:c_ylinder 0)
 
   # The 2315 is front-loading: its vertical door swings open for cartridges.
-  t := t c_at (("disk front opening", 0.0 -0.345 0.000, 0.360 0.020 0.300, flat, co:faceplateCharcoal, 0.0) bp:b_ox 0)
-  t := t c_at (("disk front door hinge", 0.185 -0.370 0.000, flat) bp:g_roup 0)
+  t := t c_at (("disk front opening", 0.0 0.000 0.000, 0.360 0.020 0.300, flat, co:faceplateCharcoal, 0.0) bp:b_ox 0)
+  t := t c_at (("disk front door hinge", 0.185 0.000 0.000, flat) bp:g_roup 0)
   t := t c_at (("disk front door", -0.185 0.000 0.000, 0.390 0.018 0.330, flat, co:charcoalCabinet, 0.0) bp:b_ox 0)
-  t := t c_at (("disk front door handle", -0.185 -0.015 0.000, 0.120 0.014 0.025, flat, co:chromeSilver, 0.0) bp:b_ox 0)
+  t := t c_at (("disk front door handle", -0.185 0.005 0.000, 0.120 0.014 0.025, flat, co:chromeSilver, 0.0) bp:b_ox 0)
   t := t c_at bp:ungroup
   t := t c_at (("disk front door hinge", "cartridge", "rotation", 0.0 1.0, 2 3 r_eshape 0.0 0.0 0.0  0.0 0.0 88.0) bp:k_eys 0)
 

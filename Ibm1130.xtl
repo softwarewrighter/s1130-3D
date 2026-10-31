@@ -31,7 +31,7 @@ l:pbrAndCameras := "for m in bpy.data.materials:\n    if not m.use_nodes:\n     
 
 ### Open-cover camera render
 
-l:openCoverRender := "scene.frame_set(30)\nrender_view(cam_overview, \"tabletop-open.png\")\nrender_view(cam_disk, \"cartridge-door-open.png\")\nscene.frame_set(0)\n"
+l:openCoverRender := "bpy.data.objects[\"desk top right hinge\"].rotation_euler = (math.radians(-88.0), 0.0, 0.0)\nrender_view(cam_overview, \"tabletop-open.png\")\nbpy.data.objects[\"desk top right hinge\"].rotation_euler = (0.0, 0.0, 0.0)\n"
 
 ### The Complete Scene Script
 
