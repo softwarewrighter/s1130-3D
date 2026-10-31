@@ -31,7 +31,7 @@ l:pbrAndCameras := "for m in bpy.data.materials:\n    if not m.use_nodes:\n     
 
 ### Open-cover camera render
 
-l:openCoverRender := "cam_disk_open = add_cam(\"cam_disk_open\", (1.05, -1.35, 1.45), (0.37, 0.08, 0.82), lens=48)\nscene.frame_set(30)\nrender_view(cam_disk_open, \"disk-open.png\")\nscene.frame_set(0)\n"
+l:openCoverRender := "scene.frame_set(30)\nrender_view(cam_overview, \"tabletop-open.png\")\nrender_view(cam_disk, \"cartridge-door-open.png\")\nscene.frame_set(0)\n"
 
 ### The Complete Scene Script
 

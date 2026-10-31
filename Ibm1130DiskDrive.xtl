@@ -1,5 +1,5 @@
 ## Ibm1130DiskDrive.xtl -- IBM 2315 single disk storage drive bay,
-## smoked translucent door, handle, spindle hub, CE switches panel,
+## front-loading cartridge door, handle, spindle hub, CE switches panel,
 ## and CE / Use elapsed time meters (1130-front.png, ce-switches.png).
 ##
 ## Sits on the right desk surface.
@@ -22,7 +22,7 @@ h:t_oggle := { (name, at) z ->
 
 l:d_iskParts := { z ->
   # Start group for disk storage bay
-  t := (("disk drive", 0.370 -0.030 0.740, flat) bp:g_roup 0)
+  t := (("disk drive", 0.370 -0.030 0.580, flat) bp:g_roup 0)
 
   # Outer recessed bay rim
   t := t c_at (("disk bay rim", 0.0 0.0 -0.005, 0.430 0.430 0.015, flat, co:charcoalCabinet, 0.0) bp:b_ox 0)
@@ -42,22 +42,17 @@ l:d_iskParts := { z ->
   t := t c_at (("disk on off switch", -0.120 -0.195 0.005, 0.024 0.014 0.012, flat, co:buttonWhite, 0.0) bp:b_ox 0)
   t := t c_at (("disk ready lamp", -0.080 -0.195 0.005, 0.006 0.006 0.006, flat, co:lampGreen, 3.0) bp:c_ylinder 0)
 
-  # White equipment cover spanning the disk well and CE console.
-  # It is hinged along its hidden right edge and can open nearly vertical.
-  t := t c_at (("disk cover hinge", 0.600 0.070 0.775, flat) bp:g_roup 0)
-  t := t c_at (("disk drive cover", -0.230 0.000 0.000, 0.460 0.680 0.018, flat, co:desktopCream, 0.0) bp:b_ox 0)
-  t := t c_at (("disk cover front edge", -0.230 -0.340 -0.010, 0.460 0.018 0.026, flat, co:deskEdgeTrim, 0.0) bp:b_ox 0)
-  t := t c_at (("disk cover handle", -0.230 -0.300 0.018, 0.130 0.014 0.014, flat, co:chromeSilver, 0.0) bp:b_ox 0)
-  t := t c_at (("disk cover hidden hinge", 0.000 0.000 -0.002, 0.012 0.300 0.012, 90.0 0.0 0.0, co:charcoalCabinet, 0.0) bp:c_ylinder 0)
-
+  # The 2315 is front-loading: its vertical door swings open for cartridges.
+  t := t c_at (("disk front opening", 0.0 -0.345 0.000, 0.360 0.020 0.300, flat, co:faceplateCharcoal, 0.0) bp:b_ox 0)
+  t := t c_at (("disk front door hinge", 0.185 -0.370 0.000, flat) bp:g_roup 0)
+  t := t c_at (("disk front door", -0.185 0.000 0.000, 0.390 0.018 0.330, flat, co:charcoalCabinet, 0.0) bp:b_ox 0)
+  t := t c_at (("disk front door handle", -0.185 -0.015 0.000, 0.120 0.014 0.025, flat, co:chromeSilver, 0.0) bp:b_ox 0)
   t := t c_at bp:ungroup
+  t := t c_at (("disk front door hinge", "cartridge", "rotation", 0.0 1.0, 2 3 r_eshape 0.0 0.0 0.0  0.0 0.0 88.0) bp:k_eys 0)
 
-  # Open-cover animation: right-side hinge, nearly 90 degrees.
-  t := t c_at (("disk cover hinge", "open", "rotation", 0.0 1.0, 2 3 r_eshape 0.0 0.0 0.0  0.0 88.0 0.0) bp:k_eys 0)
-
-  ### CE Switches and Elapsed Time Meters (Behind Disk Drive)
+  ### CE Switches and Elapsed Time Meters (Below Hinged Tabletop)
   # Group for CE console controls, recessed below the equipment cover.
-  t := t c_at (("ce console", 0.370 0.280 0.700, flat) bp:g_roup 0)
+  t := t c_at (("ce console", 0.370 0.280 0.620, flat) bp:g_roup 0)
 
   # Deep black recessed tray beneath the CE controls and meters.
   t := t c_at (("ce recessed tray", 0.000 0.000 -0.030, 0.430 0.180 0.035, flat, co:charcoalCabinet, 0.0) bp:b_ox 0)

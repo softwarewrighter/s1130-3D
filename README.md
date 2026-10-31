@@ -52,7 +52,7 @@ Every component is grouped and named for easy programmatic access:
   - **6 Register Rows** with alternating light and dark gray 4-bit nibble background bands and warm glowing incandescent amber indicator lamps (`IAR`, `SAR`, `SBR`, `AFR`, `ACC`, `EXT`).
   - Center and right timing lights (`T0`–`T7`), cycle controls, operation register, interrupt levels, and cycle counters.
 - **IBM 2315 Single Disk Storage Bay**:
-  - Recessed top-loading drive bay on the right desktop with central magnetic spindle hub and alignment rails.
+  - Front-loading 2315 disk drive recessed below the right-hand service tabletop, with a vertical cartridge door, central spindle mechanism, and alignment rails.
   - Smoked transparent acrylic hinged door with chrome pull handle.
   - Front drive on/off switch and ready lamp.
   - Rear ledge **CE Switch Panel** (6 switches: `Lamp Test`, `Parity Run`, `Storage Load`, `Interrupt Delay`, `No-Stor Load Cycle`, `Display Storage`) and dual circular **Customer Use** & **CE Elapsed Time Meters**.
@@ -66,7 +66,7 @@ Every component is grouped and named for easy programmatic access:
 - [`Ibm1130Keyboard.xtl`](file:///Users/mike/github/softwarewrighter/s1130-3D/Ibm1130Keyboard.xtl) -- Slanted keyboard well with status lamps, typewriter keys, and control switches.
 - [`Ibm1130Printer.xtl`](file:///Users/mike/github/softwarewrighter/s1130-3D/Ibm1130Printer.xtl) -- Selectric printer with platen, knobs, typeball carriage, cover, and 16 bit toggle switches.
 - [`Ibm1130DisplayPanel.xtl`](file:///Users/mike/github/softwarewrighter/s1130-3D/Ibm1130DisplayPanel.xtl) -- Elevated display console, badge, EPO, rotary switch, register nibble bands, and lamps.
-- [`Ibm1130DiskDrive.xtl`](file:///Users/mike/github/softwarewrighter/s1130-3D/Ibm1130DiskDrive.xtl) -- 2315 disk drive bay, spindle, acrylic cover, CE switches, and meters.
+- [`Ibm1130DiskDrive.xtl`](file:///Users/mike/github/softwarewrighter/s1130-3D/Ibm1130DiskDrive.xtl) -- front-loading 2315 disk drive, cartridge door, spindle, CE switches, and meters.
 - [`Ibm1130.xtl`](file:///Users/mike/github/softwarewrighter/s1130-3D/Ibm1130.xtl) -- Master assembly connecting all 440 semantic parts, studio lighting, PBR materials, and 5 camera rigs.
 - [`make-ibm1130.xtl`](file:///Users/mike/github/softwarewrighter/s1130-3D/make-ibm1130.xtl) -- Main executable driver that generates scripts, runs Blender in batch mode, exports assets, renders PNGs, and writes the web viewer.
 - [`justfile`](file:///Users/mike/github/softwarewrighter/s1130-3D/justfile) -- Task runner recipes.
@@ -104,7 +104,7 @@ This serves [`work/ibm1130/out/index.html`](file:///Users/mike/github/softwarewr
 
 Use mouse drag to orbit, right-drag to pan, and the scroll wheel or trackpad to zoom. The viewer also provides explicit **Zoom In** and **Zoom Out** buttons for close inspection. Keyboard controls are `W`/`S` to zoom, `A`/`D` or left/right arrows to orbit horizontally, up/down arrows to orbit vertically, `I`/`K` to pan up/down, Space to toggle auto-rotate, and `R` to reset the overview. The **Pause Rotation** button toggles auto-rotate visibly.
 
-The disk/CE area is modeled with a white right-hinged cover, recessed CE controls, and an exported `open` animation. Use the **Open CE Cover** button to raise the cover nearly 90 degrees.
+The disk/CE area is modeled with a hinged right-hand tabletop/service hatch, recessed CE controls, and a front-loading cartridge door. The exported `open` animation raises the service hatch nearly 90 degrees; use the **Open Service Hatch** button to inspect the CE controls and drive mechanism.
 
 ### 3. Generated Files (`work/ibm1130/out/`)
 - **`ibm1130.glb`**: Binary glTF 2.0 (1.1 MB) containing all 440 named meshes, materials, and hierarchy.

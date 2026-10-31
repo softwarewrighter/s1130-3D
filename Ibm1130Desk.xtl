@@ -30,19 +30,22 @@ h:l_ouver := { (n, zpos) z ->
 
 l:d_eskParts := { z ->
   # Tabletop Sections with cutout well for the keyboard console
-  # 1. Right tabletop (over the disk & electronics pedestal)
-  t := (("desk top right", 0.402 0.0 0.7225, 0.682 0.737 0.035, flat, co:desktopCream, 0.0) bp:b_ox 0)
+  # 1. Right hinged tabletop/service hatch (over the disk & electronics pedestal)
+  t := (("desk top right hinge", 0.402 0.368 0.740, flat) bp:g_roup 0)
+  t := t c_at (("desk top right", 0.0 -0.368 0.0, 0.682 0.737 0.035, flat, co:desktopCream, 0.0) bp:b_ox 0)
+  t := t c_at (("desk top right front trim", 0.0 -0.737 0.0, 0.682 0.005 0.037, flat, co:deskEdgeTrim, 0.0) bp:b_ox 0)
+  t := t c_at (("desk top right edge trim", 0.342 -0.368 0.0, 0.005 0.737 0.037, flat, co:deskEdgeTrim, 0.0) bp:b_ox 0)
+  t := t c_at bp:ungroup
+  t := t c_at (("desk top right hinge", "open", "rotation", 0.0 1.0, 2 3 r_eshape 0.0 0.0 0.0  -88.0 0.0 0.0) bp:k_eys 0)
   # 2. Left rear tabletop (under/behind console printer)
   t := t c_at (("desk top left rear", -0.342 0.139 0.7225, 0.802 0.458 0.035, flat, co:desktopCream, 0.0) bp:b_ox 0)
   # 3. Left side tabletop margin
   t := t c_at (("desk top left side", -0.706 -0.229 0.7225, 0.074 0.278 0.035, flat, co:desktopCream, 0.0) bp:b_ox 0)
 
   # Desk perimeter trim
-  t := t c_at (("desk trim front right", 0.402 -0.370 0.7225, 0.684 0.005 0.037, flat, co:deskEdgeTrim, 0.0) bp:b_ox 0)
   t := t c_at (("desk trim front left", -0.706 -0.370 0.7225, 0.076 0.005 0.037, flat, co:deskEdgeTrim, 0.0) bp:b_ox 0)
   t := t c_at (("desk trim back", 0.0 0.370 0.7225, 1.490 0.005 0.037, flat, co:deskEdgeTrim, 0.0) bp:b_ox 0)
   t := t c_at (("desk trim left", -0.744 0.0 0.7225, 0.005 0.739 0.037, flat, co:deskEdgeTrim, 0.0) bp:b_ox 0)
-  t := t c_at (("desk trim right", 0.744 0.0 0.7225, 0.005 0.739 0.037, flat, co:deskEdgeTrim, 0.0) bp:b_ox 0)
 
   # Kickplates (recessed base plinth)
   t := t c_at (("kickplate right", 0.405 0.0 0.045, 0.63 0.68 0.07, flat, co:charcoalCabinet, 0.0) bp:b_ox 0)
