@@ -1,0 +1,130 @@
+## Ibm1130Keyboard.xtl -- Console keyboard, status indicator lamps,
+## and control pushbuttons for the IBM 1130 system (Figure 6-13).
+##
+## Positioned in the desk well in front of the console printer, slanted
+## forward at ~11 degrees towards the operator.
+## Import: "kb:" u_se< "Ibm1130Keyboard"
+
+"bp:" u_se< "Bpy"
+"co:" u_se< "Ibm1130Colors"
+
+flat := 0.0 0.0 0.0
+
+### Status Indicator Lamps (Left of Keyboard)
+
+# (name, at, rgb, emit) kb:l_amp 0: a rectangular indicator light with bezel
+h:l_amp := { (name, at, rgb, emit) z ->
+  t := ((name c_at " bezel", at + 0.0 0.0 0.002, 0.038 0.024 0.012, flat, co:faceplateCharcoal, 0.0) bp:b_ox 0)
+  t c_at ((name c_at " jewel", at + 0.0 0.0 0.009, 0.032 0.018 0.006, flat, rgb, emit) bp:b_ox 0)
+}
+
+### Keyboard Keycaps
+
+# (name, at, size, rgb) kb:k_ey 0: an individual sculpted typewriter keycap
+h:k_ey := { (name, at, size, rgb) z ->
+  t := ((name c_at " base", at + 0.0 0.0 0.008, size, flat, co:keycapDark, 0.0) bp:b_ox 0)
+  t c_at ((name c_at " top", at + 0.0 0.0 0.015, size * 0.88 0.88 0.45, flat, rgb, 0.0) bp:b_ox 0)
+}
+
+### Control Pushbuttons (Right of Keyboard)
+
+# (name, at, rgb, emit) kb:b_tn 0: a rectangular illuminated console switch button
+h:b_tn := { (name, at, rgb, emit) z ->
+  t := ((name c_at " collar", at + 0.0 0.0 0.004, 0.038 0.026 0.014, flat, co:faceplateCharcoal, 0.0) bp:b_ox 0)
+  t c_at ((name c_at " button", at + 0.0 0.0 0.012, 0.030 0.020 0.010, flat, rgb, emit) bp:b_ox 0)
+}
+
+### The Keyboard Well Assembly
+
+l:k_eyboardParts := { z ->
+  # Start group for the slanted console well (tilted 11 degrees forward)
+  t := (("keyboard well", -0.308 -0.230 0.720, 11.0 0.0 0.0) bp:g_roup 0)
+
+  # Slanted bezel deck plate
+  t := t c_at (("console bezel plate", 0.0 0.0 0.0, 0.720 0.270 0.024, flat, co:faceplateCharcoal, 0.0) bp:b_ox 0)
+  t := t c_at (("console trim border", 0.0 0.0 -0.008, 0.725 0.275 0.016, flat, co:deskEdgeTrim, 0.0) bp:b_ox 0)
+
+  ### 1. Left: Status Indicator Panel (2 columns x 4 rows)
+  # Column 1 (x = -0.285), Column 2 (x = -0.240)
+  # Rows from top to bottom (y = 0.070, 0.025, -0.020, -0.065)
+  t := t c_at (("status alarm", -0.285 0.070 0.012, co:lampRed, 3.5) h:l_amp 0)
+  t := t c_at (("status spare", -0.240 0.070 0.012, co:lampOff, 0.0) h:l_amp 0)
+  t := t c_at (("status disk unlock", -0.285 0.025 0.012, co:lampAmber, 0.0) h:l_amp 0)
+  t := t c_at (("status disk ready", -0.240 0.025 0.012, co:lampGreen, 3.5) h:l_amp 0)
+  t := t c_at (("status run", -0.285 -0.020 0.012, co:lampGreen, 3.5) h:l_amp 0)
+  t := t c_at (("status parity check", -0.240 -0.020 0.012, co:lampRed, 0.0) h:l_amp 0)
+  t := t c_at (("status kb select", -0.285 -0.065 0.012, co:lampWhite, 3.0) h:l_amp 0)
+  t := t c_at (("status forms check", -0.240 -0.065 0.012, co:lampAmber, 0.0) h:l_amp 0)
+
+  ### 2. Center: Alphanumeric Keyboard Keys
+  # Keys have width 0.020, depth 0.020, height 0.014
+  ks := 0.020 0.020 0.014
+
+  # Row 1 (top): REST KB, 8 punctuation/digits, INT REQ
+  t := t c_at (("key REST KB", -0.165 0.070 0.012, 0.028 0.020 0.014, co:keycapDark) h:k_ey 0)
+  t := t c_at (("key @", -0.132 0.070 0.012, ks, co:keycapGray) h:k_ey 0)
+  t := t c_at (("key %", -0.099 0.070 0.012, ks, co:keycapGray) h:k_ey 0)
+  t := t c_at (("key *", -0.066 0.070 0.012, ks, co:keycapGray) h:k_ey 0)
+  t := t c_at (("key <", -0.033 0.070 0.012, ks, co:keycapGray) h:k_ey 0)
+  t := t c_at (("key cent", 0.000 0.070 0.012, ks, co:keycapGray) h:k_ey 0)
+  t := t c_at (("key _", 0.033 0.070 0.012, ks, co:keycapGray) h:k_ey 0)
+  t := t c_at (("key =", 0.066 0.070 0.012, ks, co:keycapGray) h:k_ey 0)
+  t := t c_at (("key 0", 0.099 0.070 0.012, ks, co:keycapGray) h:k_ey 0)
+  t := t c_at (("key INT REQ", 0.138 0.070 0.012, 0.028 0.020 0.014, co:keycapDark) h:k_ey 0)
+
+  # Row 2: Q W E R T Y U I O P EOF
+  t := t c_at (("key Q", -0.145 0.038 0.012, ks, co:keycapBlue) h:k_ey 0)
+  t := t c_at (("key W", -0.116 0.038 0.012, ks, co:keycapBlue) h:k_ey 0)
+  t := t c_at (("key E", -0.087 0.038 0.012, ks, co:keycapBlue) h:k_ey 0)
+  t := t c_at (("key R", -0.058 0.038 0.012, ks, co:keycapBlue) h:k_ey 0)
+  t := t c_at (("key T", -0.029 0.038 0.012, ks, co:keycapBlue) h:k_ey 0)
+  t := t c_at (("key Y", 0.000 0.038 0.012, ks, co:keycapBlue) h:k_ey 0)
+  t := t c_at (("key U", 0.029 0.038 0.012, ks, co:keycapBlue) h:k_ey 0)
+  t := t c_at (("key I", 0.058 0.038 0.012, ks, co:keycapBlue) h:k_ey 0)
+  t := t c_at (("key O", 0.087 0.038 0.012, ks, co:keycapBlue) h:k_ey 0)
+  t := t c_at (("key P", 0.116 0.038 0.012, ks, co:keycapBlue) h:k_ey 0)
+  t := t c_at (("key EOF", 0.148 0.038 0.012, 0.026 0.020 0.014, co:keycapDark) h:k_ey 0)
+
+  # Row 3: A S D F G H J K L <- ERASE
+  t := t c_at (("key A", -0.140 0.006 0.012, ks, co:keycapBlue) h:k_ey 0)
+  t := t c_at (("key S", -0.111 0.006 0.012, ks, co:keycapBlue) h:k_ey 0)
+  t := t c_at (("key D", -0.082 0.006 0.012, ks, co:keycapBlue) h:k_ey 0)
+  t := t c_at (("key F", -0.053 0.006 0.012, ks, co:keycapBlue) h:k_ey 0)
+  t := t c_at (("key G", -0.024 0.006 0.012, ks, co:keycapBlue) h:k_ey 0)
+  t := t c_at (("key H", 0.005 0.006 0.012, ks, co:keycapBlue) h:k_ey 0)
+  t := t c_at (("key J", 0.034 0.006 0.012, ks, co:keycapBlue) h:k_ey 0)
+  t := t c_at (("key K", 0.063 0.006 0.012, ks, co:keycapBlue) h:k_ey 0)
+  t := t c_at (("key L", 0.092 0.006 0.012, ks, co:keycapBlue) h:k_ey 0)
+  t := t c_at (("key BACKSPACE", 0.121 0.006 0.012, ks, co:keycapDark) h:k_ey 0)
+  t := t c_at (("key ERASE", 0.152 0.006 0.012, 0.028 0.020 0.014, co:keycapDark) h:k_ey 0)
+
+  # Row 4: NUM Z X C V B N M , . )
+  t := t c_at (("key NUM", -0.158 -0.026 0.012, 0.030 0.020 0.014, co:keycapDark) h:k_ey 0)
+  t := t c_at (("key Z", -0.128 -0.026 0.012, ks, co:keycapBlue) h:k_ey 0)
+  t := t c_at (("key X", -0.099 -0.026 0.012, ks, co:keycapBlue) h:k_ey 0)
+  t := t c_at (("key C", -0.070 -0.026 0.012, ks, co:keycapBlue) h:k_ey 0)
+  t := t c_at (("key V", -0.041 -0.026 0.012, ks, co:keycapBlue) h:k_ey 0)
+  t := t c_at (("key B", -0.012 -0.026 0.012, ks, co:keycapBlue) h:k_ey 0)
+  t := t c_at (("key N", 0.017 -0.026 0.012, ks, co:keycapBlue) h:k_ey 0)
+  t := t c_at (("key M", 0.046 -0.026 0.012, ks, co:keycapBlue) h:k_ey 0)
+  t := t c_at (("key comma", 0.075 -0.026 0.012, ks, co:keycapGray) h:k_ey 0)
+  t := t c_at (("key period", 0.104 -0.026 0.012, ks, co:keycapGray) h:k_ey 0)
+  t := t c_at (("key paren", 0.133 -0.026 0.012, ks, co:keycapGray) h:k_ey 0)
+
+  # Space Bar: Bottom row center
+  t := t c_at (("key spacebar", -0.005 -0.068 0.012, 0.230 0.024 0.014, co:keycapDark) h:k_ey 0)
+
+  ### 3. Right: Control Switch Panel (2 columns x 4 rows)
+  # Column 1 (x = 0.220), Column 2 (x = 0.265)
+  # Rows match status lamps
+  t := t c_at (("switch power", 0.220 0.070 0.012, co:buttonGreen, 2.0) h:b_tn 0)
+  t := t c_at (("switch console kb", 0.265 0.070 0.012, co:buttonWhite, 0.0) h:b_tn 0)
+  t := t c_at (("switch prog start", 0.220 0.025 0.012, co:buttonBlue, 0.0) h:b_tn 0)
+  t := t c_at (("switch imm stop", 0.265 0.025 0.012, co:buttonRed, 0.0) h:b_tn 0)
+  t := t c_at (("switch prog stop", 0.220 -0.020 0.012, co:buttonRed, 0.0) h:b_tn 0)
+  t := t c_at (("switch reset", 0.265 -0.020 0.012, co:buttonWhite, 0.0) h:b_tn 0)
+  t := t c_at (("switch load iar", 0.220 -0.065 0.012, co:buttonBlue, 0.0) h:b_tn 0)
+  t := t c_at (("switch prog load", 0.265 -0.065 0.012, co:buttonBlue, 0.0) h:b_tn 0)
+
+  t c_at bp:ungroup
+}

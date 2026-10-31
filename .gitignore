@@ -1,0 +1,4 @@
+# Generated blender output and temporary runs
+work/
+*.log
+.DS_Store

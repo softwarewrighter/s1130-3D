@@ -1,0 +1,49 @@
+## make-ibm1130.xtl -- Driver script to build 3D models and renders of the
+## IBM 1130 computing system using X_eTaL and Blender.
+##
+## Writes the Python scene script, runs Blender in background mode,
+## exports .glb, .obj, .blend, renders PNG images for multiple camera
+## viewpoints, and builds an interactive 3D web preview page.
+##
+## Run: just render
+
+"bl:" u_se< "Blender"
+"bp:" u_se< "Bpy"
+"bm:" u_se< "Ibm1130"
+
+"=== IBM 1130 Computing System 3D Model Generator ==="
+"Using Blender: " c_at bl:v_ersion @
+
+# 1. Write the launcher script
+n := "work/ibm1130/run.py" bl:w_rite! bp:launcher
+
+# 2. Write the Blender Python scene script (1280x720 HD renders)
+sceneScript := (1280, 720) bm:s_cene 0
+n := "work/ibm1130/scene.py" bl:w_rite! sceneScript
+
+"Generating 3D model, materials, and rendering multi-angle views in Blender..."
+r := "work/ibm1130/run.py" bl:r_un! "work/ibm1130/scene.py work/ibm1130/out"
+
+# Check run log output and report errors if any
+lines := (n_ot r = f_irst "\n") p_artition r
+"Blender run status:"
+d_isclose 1 s_elect lines
+d_isclose 2 s_elect lines
+
+# 3. Read and print the model report
+"=== Model Summary & Mesh Report ==="
+bl:r_ead "work/ibm1130/out/report.txt"
+
+# 4. Generate the interactive 3D Web Viewer page
+h1 := "<!doctype html>\n<html lang='en'>\n<head>\n  <meta charset='utf-8'>\n  <meta name='viewport' content='width=device-width, initial-scale=1.0'>\n  <title>IBM 1130 Computing System -- Interactive 3D Model</title>\n  <script type='module' src='https://cdn.jsdelivr.net/npm/@google/model-viewer@4/dist/model-viewer.min.js'></script>\n  <style>\n    * { box-sizing: border-box; margin: 0; padding: 0; }\n    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #181a1f; color: #e0e0e0; padding: 20px; }\n    header { text-align: center; margin-bottom: 20px; }\n    h1 { font-size: 26px; color: #ffffff; letter-spacing: 0.5px; }\n    p.sub { font-size: 14px; color: #8e94a0; margin-top: 6px; }\n    .viewer-container { width: 100%; max-width: 1200px; height: 600px; margin: 0 auto; background: radial-gradient(circle at center, #2c323d 0%, #15171c 100%); border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }\n    model-viewer { width: 100%; height: 100%; }\n    .controls { max-width: 1200px; margin: 15px auto; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }\n    button { background: #252932; color: #d0d4dc; border: 1px solid #3c4250; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s; }\n    button:hover { background: #1e5799; color: #fff; border-color: #2e75cb; }\n    .gallery { max-width: 1200px; margin: 30px auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }\n    .card { background: #21252d; border-radius: 8px; overflow: hidden; border: 1px solid #303642; }\n    .card img { width: 100%; display: block; border-bottom: 1px solid #303642; }\n    .card h3 { padding: 10px 14px 4px; font-size: 15px; color: #fff; }\n    .card p { padding: 0 14px 12px; font-size: 13px; color: #949aa6; }\n    .downloads { max-width: 1200px; margin: 20px auto; padding: 15px; background: #21252d; border-radius: 8px; text-align: center; font-size: 14px; }\n    .downloads a { color: #5ea4ff; text-decoration: none; margin: 0 10px; font-weight: 500; }\n    .downloads a:hover { text-decoration: underline; }\n  </style>\n</head>\n<body>\n  <header>\n    <h1>IBM 1130 Computing System</h1>\n    <p class='sub'>3D Model created in X_eTaL driving Blender &bull; Desk console with keyboard, Selectric printer, elevated display panel &amp; 2315 disk drive</p>\n  </header>\n  <div class='viewer-container'>\n    <model-viewer id='mv' src='ibm1130.glb' poster='overview.png' alt='IBM 1130 Computing System 3D Model' camera-controls auto-rotate shadow-intensity='1.2' environment-image='neutral' exposure='1.1'></model-viewer>\n  </div>\n"
+
+h2 := "  <div class='controls'>\n    <button onclick=\"document.getElementById('mv').cameraOrbit = '35deg 70deg 3.0m'\">Overview 3/4</button>\n    <button onclick=\"document.getElementById('mv').cameraOrbit = '0deg 60deg 1.8m'; document.getElementById('mv').cameraTarget = '-0.37m 0.0m 0.88m'\">Operator Cockpit</button>\n    <button onclick=\"document.getElementById('mv').cameraOrbit = '0deg 85deg 1.2m'; document.getElementById('mv').cameraTarget = '-0.37m 0.24m 1.07m'\">Console Display Panel</button>\n    <button onclick=\"document.getElementById('mv').cameraOrbit = '0deg 50deg 1.0m'; document.getElementById('mv').cameraTarget = '-0.37m -0.23m 0.72m'\">Keyboard &amp; Switches</button>\n    <button onclick=\"document.getElementById('mv').cameraOrbit = '20deg 55deg 1.1m'; document.getElementById('mv').cameraTarget = '0.37m -0.03m 0.74m'\">2315 Disk Drive</button>\n  </div>\n  <div class='downloads'>\n    <strong>Exported 3D Assets:</strong>\n    <a href='ibm1130.glb' download>ibm1130.glb (glTF 2.0)</a> &bull;\n    <a href='ibm1130.blend' download>ibm1130.blend (Blender Scene)</a> &bull;\n    <a href='ibm1130.obj' download>ibm1130.obj (Wavefront OBJ)</a>\n  </div>\n"
+
+h3 := "  <div class='gallery'>\n    <div class='card'><img src='overview.png' alt='Overview Perspective'><h3>Overall System</h3><p>Desk console with IBM blue front service door, louvered ventilation grille, caster wheels, and tabletop.</p></div>\n    <div class='card'><img src='operator.png' alt='Operator Viewpoint'><h3>Operator Cockpit View</h3><p>Seated viewpoint showing typewriter keyboard, console switches, 16 bit switches, and elevated display.</p></div>\n    <div class='card'><img src='display.png' alt='Console Display Panel'><h3>Console Display Panel</h3><p>6 rows of 16-bit registers with 4-bit nibble bands, timing lights, EPO switch, mode knob, and IBM 1130 badge.</p></div>\n    <div class='card'><img src='keyboard.png' alt='Keyboard & Pushbuttons'><h3>Keyboard &amp; Controls</h3><p>Status lamps (Alarm, Disk Ready, Run), typewriter keycaps, spacebar, and illuminated pushbuttons.</p></div>\n    <div class='card'><img src='disk.png' alt='2315 Disk Drive'><h3>IBM 2315 Disk Storage</h3><p>Top-loading removable disk cartridge drive with smoked cover, handle, CE switches, and elapsed time meters.</p></div>\n  </div>\n</body>\n</html>\n"
+
+viewerHtml := h1 c_at h2 c_at h3
+n := "work/ibm1130/out/index.html" bl:w_rite! viewerHtml
+
+"Generated files:"
+bl:f_iles "work/ibm1130/out"
+"Done."

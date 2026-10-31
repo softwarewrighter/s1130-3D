@@ -1,0 +1,84 @@
+## Ibm1130DiskDrive.xtl -- IBM 2315 single disk storage drive bay,
+## smoked translucent door, handle, spindle hub, CE switches panel,
+## and CE / Use elapsed time meters (1130-front.png, ce-switches.png).
+##
+## Sits on the right desk surface.
+## Import: "dd:" u_se< "Ibm1130DiskDrive"
+
+"bp:" u_se< "Bpy"
+"co:" u_se< "Ibm1130Colors"
+
+flat := 0.0 0.0 0.0
+
+### Toggle Switch and Button Helpers
+
+# (name, at) dd:t_oggle 0: miniature CE toggle switch
+h:t_oggle := { (name, at) z ->
+  t := ((name c_at " hex nut", at, 0.012 0.012 0.005, flat, co:chromeSilver, 0.0) bp:b_ox 0)
+  t c_at ((name c_at " lever", at + 0.0 0.0 0.010, 0.003 0.003 0.018, 20.0 0.0 0.0, co:chromeSilver, 0.0) bp:c_ylinder 0)
+}
+
+### The Disk Drive & CE Assembly
+
+l:d_iskParts := { z ->
+  # Start group for disk storage bay
+  t := (("disk drive", 0.370 -0.030 0.740, flat) bp:g_roup 0)
+
+  # Outer recessed bay rim
+  t := t c_at (("disk bay rim", 0.0 0.0 -0.005, 0.430 0.430 0.015, flat, co:charcoalCabinet, 0.0) bp:b_ox 0)
+
+  # Recessed drive well cavity
+  t := t c_at (("disk well pan", 0.0 0.0 -0.025, 0.390 0.390 0.035, flat, co:faceplateCharcoal, 0.0) bp:b_ox 0)
+
+  # Central Spindle Hub for the 2315 single disk cartridge
+  t := t c_at (("disk spindle hub", 0.0 0.0 -0.012, 0.065 0.065 0.018, flat, co:chromeSilver, 0.0) bp:c_ylinder 0)
+  t := t c_at (("disk spindle center", 0.0 0.0 -0.002, 0.020 0.020 0.012, flat, co:faceplateCharcoal, 0.0) bp:c_ylinder 0)
+
+  # Alignment guide rails
+  t := t c_at (("disk guide left", -0.160 0.0 -0.010, 0.012 0.340 0.012, flat, co:chromeSilver, 0.0) bp:b_ox 0)
+  t := t c_at (("disk guide right", 0.160 0.0 -0.010, 0.012 0.340 0.012, flat, co:chromeSilver, 0.0) bp:b_ox 0)
+
+  # Front Drive On/Off switch and Drive Ready indicator
+  t := t c_at (("disk on off switch", -0.120 -0.195 0.005, 0.024 0.014 0.012, flat, co:buttonWhite, 0.0) bp:b_ox 0)
+  t := t c_at (("disk ready lamp", -0.080 -0.195 0.005, 0.006 0.006 0.006, flat, co:lampGreen, 3.0) bp:c_ylinder 0)
+
+  # Smoked transparent acrylic cover (hinged top lid)
+  t := t c_at (("disk drive cover", 0.0 0.0 0.008, 0.390 0.390 0.008, flat, co:smokedAcrylic, 0.0) bp:b_ox 0)
+
+  # Chrome door pull handle on front edge
+  t := t c_at (("disk cover handle", 0.0 -0.180 0.020, 0.130 0.014 0.014, flat, co:chromeSilver, 0.0) bp:b_ox 0)
+
+  t := t c_at bp:ungroup
+
+  ### CE Switches and Elapsed Time Meters (Behind Disk Drive)
+  # Group for CE console controls
+  t := t c_at (("ce console", 0.370 0.280 0.740, flat) bp:g_roup 0)
+
+  # CE Switch Panel Plate (Figure ce-switches.png)
+  t := t c_at (("ce panel plate", -0.100 0.0 0.008, 0.160 0.110 0.012, flat, co:faceplateCharcoal, 0.0) bp:b_ox 0)
+
+  # 6 CE Switches:
+  # Row 1 (y = 0.028): Lamp Test, Parity Run, Storage Load
+  t := t c_at (("ce lamp test hex", -0.145 0.028 0.016, 0.014 0.014 0.005, flat, co:chromeSilver, 0.0) bp:b_ox 0)
+  t := t c_at (("ce lamp test button", -0.145 0.028 0.020, 0.006 0.006 0.008, flat, co:lampAmber, 2.0) bp:c_ylinder 0)
+  t := t c_at (("ce parity run", -0.100 0.028 0.016) h:t_oggle 0)
+  t := t c_at (("ce storage load", -0.055 0.028 0.016) h:t_oggle 0)
+
+  # Row 2 (y = -0.028): Interrupt Delay, No-Stor Load Cycle, Display Storage
+  t := t c_at (("ce interrupt delay", -0.145 -0.028 0.016) h:t_oggle 0)
+  t := t c_at (("ce nostor load", -0.100 -0.028 0.016) h:t_oggle 0)
+  t := t c_at (("ce display storage", -0.055 -0.028 0.016) h:t_oggle 0)
+
+  # Elapsed Time Meters Housing (Customer Use Meter & CE Meter)
+  t := t c_at (("meter housing", 0.080 0.0 0.020, 0.140 0.090 0.035, flat, co:charcoalCabinet, 0.0) bp:b_ox 0)
+
+  # Customer Use Meter (round gauge)
+  t := t c_at (("use meter bezel", 0.045 -0.046 0.022, 0.020 0.020 0.005, 90.0 0.0 0.0, co:chromeSilver, 0.0) bp:c_ylinder 0)
+  t := t c_at (("use meter dial", 0.045 -0.048 0.022, 0.017 0.017 0.003, 90.0 0.0 0.0, co:panelOffWhite, 0.0) bp:c_ylinder 0)
+
+  # CE Meter (round gauge)
+  t := t c_at (("ce meter bezel", 0.115 -0.046 0.022, 0.020 0.020 0.005, 90.0 0.0 0.0, co:chromeSilver, 0.0) bp:c_ylinder 0)
+  t := t c_at (("ce meter dial", 0.115 -0.048 0.022, 0.017 0.017 0.003, 90.0 0.0 0.0, co:panelOffWhite, 0.0) bp:c_ylinder 0)
+
+  t c_at bp:ungroup
+}

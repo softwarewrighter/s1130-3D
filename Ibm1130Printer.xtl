@@ -1,0 +1,69 @@
+## Ibm1130Printer.xtl -- Console printer (IBM Selectric / 1053 base)
+## and 16 console data bit switches (bits 0 to 15) for the IBM 1130.
+##
+## Sits directly behind the keyboard well on the upper desk surface.
+## Import: "pr:" u_se< "Ibm1130Printer"
+
+"bp:" u_se< "Bpy"
+"co:" u_se< "Ibm1130Colors"
+
+flat := 0.0 0.0 0.0
+
+### Bit Switches (Data Switches 0 to 15)
+
+# (name, at, up) pr:s_witch 0: a miniature toggle switch (up=1, down=0)
+h:s_witch := { (name, at, up) z ->
+  deg := (f_loat up) * 50.0 - 25.0
+  t := ((name c_at " bushing", at, 0.010 0.006 0.010, flat, co:chromeSilver, 0.0) bp:b_ox 0)
+  t c_at ((name c_at " lever", at + 0.0 -0.010 0.003, 0.003 0.003 0.022, deg c_at 0.0 0.0, co:chromeSilver, 0.0) bp:c_ylinder 0)
+}
+
+### The Console Printer Assembly
+
+l:p_rinterParts := { z ->
+  # Start group for console printer at its desk location
+  t := (("console printer", -0.370 0.110 0.740, flat) bp:g_roup 0)
+
+  # Printer lower base chassis
+  t := t c_at (("printer chassis", 0.0 0.0 0.020, 0.52 0.34 0.04, flat, co:charcoalCabinet, 0.0) bp:b_ox 0)
+
+  # Sculpted main cover housing
+  t := t c_at (("printer main body", 0.0 0.0 0.095, 0.48 0.30 0.11, flat, co:charcoalCabinet, 0.0) bp:b_ox 0)
+
+  # Platen roller (horizontal rubber cylinder along X)
+  t := t c_at (("printer platen", 0.0 0.020 0.135, 0.022 0.022 0.42, 0.0 90.0 0.0, co:platenRubber, 0.0) bp:c_ylinder 0)
+
+  # Left & right platen twirler knobs
+  t := t c_at (("printer knob left", -0.225 0.020 0.135, 0.028 0.028 0.025, 0.0 90.0 0.0, co:charcoalCabinet, 0.0) bp:c_ylinder 0)
+  t := t c_at (("printer knob left hub", -0.238 0.020 0.135, 0.012 0.012 0.006, 0.0 90.0 0.0, co:chromeSilver, 0.0) bp:c_ylinder 0)
+  t := t c_at (("printer knob right", 0.225 0.020 0.135, 0.028 0.028 0.025, 0.0 90.0 0.0, co:charcoalCabinet, 0.0) bp:c_ylinder 0)
+  t := t c_at (("printer knob right hub", 0.238 0.020 0.135, 0.012 0.012 0.006, 0.0 90.0 0.0, co:chromeSilver, 0.0) bp:c_ylinder 0)
+
+  # Carrier & Typeball ("Golf Ball")
+  t := t c_at (("printer carriage rail", 0.0 -0.020 0.115, 0.44 0.012 0.008, flat, co:chromeSilver, 0.0) bp:b_ox 0)
+  t := t c_at (("printer typeball", 0.0 -0.015 0.140, 0.016 0.016 0.016, flat, co:chromeSilver, 0.0) bp:s_phere 0)
+
+  # Smoked acrylic transparent dust cover over platen
+  t := t c_at (("printer dust cover", 0.0 0.020 0.170, 0.44 0.16 0.045, flat, co:smokedAcrylic, 0.0) bp:b_ox 0)
+
+  # Rear paper guide / tray
+  t := t c_at (("printer paper guide", 0.0 0.130 0.160, 0.40 0.010 0.120, -35.0 0.0 0.0, co:charcoalCabinet, 0.0) bp:b_ox 0)
+
+  ### Front Apron: 16 Data Bit Switches (bits 0 to 15)
+  # Apron faceplate band
+  t := t c_at (("bit switch apron", 0.0 -0.160 0.055, 0.48 0.012 0.035, flat, co:faceplateCharcoal, 0.0) bp:b_ox 0)
+  t := t c_at (("bit switch label bar", 0.0 -0.166 0.068, 0.44 0.002 0.010, flat, co:nibbleLight, 0.0) bp:b_ox 0)
+
+  # 16 switches from bit 0 (left) to bit 15 (right)
+  # Spanning x = -0.195 to +0.195 (step 0.026)
+  s_w := { (n, xpos, state) z0 -> ("bit switch " c_at n, xpos c_at -0.168 0.050, state) h:s_witch 0 }
+  t := t c_at (("0", -0.195, 1) s_w 0) c_at (("1", -0.169, 0) s_w 0) c_at (("2", -0.143, 0) s_w 0) c_at (("3", -0.117, 1) s_w 0)
+  t := t c_at (("4", -0.091, 0) s_w 0) c_at (("5", -0.065, 0) s_w 0) c_at (("6", -0.039, 1) s_w 0) c_at (("7", -0.013, 0) s_w 0)
+  t := t c_at (("8", 0.013, 0) s_w 0) c_at (("9", 0.039, 0) s_w 0) c_at (("10", 0.065, 1) s_w 0) c_at (("11", 0.091, 0) s_w 0)
+  t := t c_at (("12", 0.117, 0) s_w 0) c_at (("13", 0.143, 0) s_w 0) c_at (("14", 0.169, 0) s_w 0) c_at (("15", 0.195, 1) s_w 0)
+
+  # Printer controls on the left apron (carrier return, restore)
+  t := t c_at (("printer restore switch", -0.225 -0.168 0.050, 0.014 0.008 0.018, flat, co:buttonBlue, 0.0) bp:b_ox 0)
+
+  t c_at bp:ungroup
+}

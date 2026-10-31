@@ -1,0 +1,184 @@
+## Ibm1130DisplayPanel.xtl -- Elevated console display panel, register
+## indicator lamps, nibble bands, EPO pull switch, rotary mode switch,
+## and IBM 1130 nameplate badge (Figures 6-15, top-panel.png, lamps-layout.png).
+##
+## Elevated on two posts above the console printer.
+## Import: "dp:" u_se< "Ibm1130DisplayPanel"
+
+"bp:" u_se< "Bpy"
+"co:" u_se< "Ibm1130Colors"
+
+flat := 0.0 0.0 0.0
+
+### Indicator Lamp Helpers
+
+h:l_ampRgb := { lit z -> lit ? co:lampAmber
+  co:lampOff
+}
+h:l_ampEmit := { lit z -> lit ? 2.8
+  0.0
+}
+
+# (name, at, lit) dp:l_amp 0: an individual register or timing lamp
+h:l_amp := { (name, at, lit) z ->
+  rgb := lit h:l_ampRgb 0
+  emit := lit h:l_ampEmit 0
+  (name, at, 0.0035 0.0035 0.004, 90.0 0.0 0.0, rgb, emit) bp:c_ylinder 0
+}
+
+# (name, at, size, rgb) dp:b_and 0: a register nibble background strip
+h:b_and := { (name, at, size, rgb) z ->
+  (name, at, size, flat, rgb, 0.0) bp:b_ox 0
+}
+
+### The Elevated Console Display Panel Assembly
+
+l:d_isplayParts := { z ->
+  # Start group for display panel
+  t := (("console display panel", -0.370 0.240 1.070, flat) bp:g_roup 0)
+
+  # Two Support Posts rising from desk (world z 0.74 to 1.05)
+  t := t c_at (("display post left", -0.240 0.010 -0.160, 0.035 0.035 0.280, flat, co:charcoalCabinet, 0.0) bp:b_ox 0)
+  t := t c_at (("display post right", 0.240 0.010 -0.160, 0.035 0.035 0.280, flat, co:charcoalCabinet, 0.0) bp:b_ox 0)
+
+  # Main Display Enclosure: off-white sheet metal casing
+  t := t c_at (("display enclosure body", 0.0 0.0 0.0, 0.720 0.110 0.210, flat, co:panelOffWhite, 0.0) bp:b_ox 0)
+
+  # Dark Charcoal Recessed Faceplate
+  t := t c_at (("display faceplate", 0.0 -0.055 0.0, 0.700 0.006 0.190, flat, co:faceplateCharcoal, 0.0) bp:b_ox 0)
+
+  ### Nameplate Badge on Top of Enclosure
+  # Two silver standoffs
+  t := t c_at (("badge standoff left", -0.160 0.0 0.115, 0.004 0.004 0.020, flat, co:chromeSilver, 0.0) bp:c_ylinder 0)
+  t := t c_at (("badge standoff right", 0.100 0.0 0.115, 0.004 0.004 0.020, flat, co:chromeSilver, 0.0) bp:c_ylinder 0)
+  # Badge bar
+  t := t c_at (("badge bar", -0.030 0.0 0.130, 0.380 0.010 0.032, flat, co:faceplateCharcoal, 0.0) bp:b_ox 0)
+  # Left IBM block
+  t := t c_at (("badge ibm background", -0.165 -0.006 0.130, 0.090 0.004 0.028, flat, co:faceplateCharcoal, 0.0) bp:b_ox 0)
+  t := t c_at (("badge ibm letters", -0.165 -0.009 0.130, 0.075 0.002 0.022, flat, co:panelOffWhite, 0.0) bp:b_ox 0)
+  # Right "1130 Computing System" plate
+  t := t c_at (("badge 1130 plate", 0.040 -0.006 0.130, 0.260 0.004 0.028, flat, co:brushedAluminum, 0.0) bp:b_ox 0)
+  t := t c_at (("badge 1130 text", 0.040 -0.009 0.130, 0.240 0.002 0.020, flat, co:faceplateCharcoal, 0.0) bp:b_ox 0)
+
+  ### Controls on Faceplate
+  # 1. Emergency Power Off (EPO) on the left
+  t := t c_at (("epo bezel ring", -0.300 -0.059 0.005, 0.024 0.024 0.006, 90.0 0.0 0.0, co:epoBezel, 0.0) bp:c_ylinder 0)
+  t := t c_at (("epo pull knob", -0.300 -0.065 0.005, 0.015 0.015 0.012, 90.0 0.0 0.0, co:epoRed, 0.0) bp:c_ylinder 0)
+
+  # 2. Rotary Mode Switch on the far right
+  t := t c_at (("mode switch dial", 0.305 -0.059 -0.005, 0.028 0.028 0.004, 90.0 0.0 0.0, co:faceplateCharcoal, 0.0) bp:c_ylinder 0)
+  t := t c_at (("mode switch knob", 0.305 -0.068 -0.005, 0.018 0.018 0.016, 90.0 0.0 0.0, co:rotaryBlack, 0.0) bp:c_ylinder 0)
+  t := t c_at (("mode switch pointer", 0.305 -0.077 -0.005, 0.003 0.002 0.022, flat, co:tickWhite, 0.0) bp:b_ox 0)
+
+  ### 3. Left Register Area (6 Rows): Nibble Bands and Lamps
+  # Rows at z = 0.065, 0.038, 0.011, -0.016, -0.043, -0.070
+  # Nibble columns: N0 (x = -0.190), N1 (x = -0.135), N2 (x = -0.080), N3 (x = -0.025)
+  r_ow := { (regName, zpos, litPattern) z0 ->
+    # Label strip on left
+    a := (("label " c_at regName, -0.250 -0.059 c_at zpos, 0.048 0.002 0.018, co:nibbleLight) h:b_and 0)
+    # Nibble background bands (alternating light/dark gray)
+    a := a c_at ((regName c_at " nibble 0", -0.190 -0.059 c_at zpos, 0.050 0.002 0.018, co:nibbleLight) h:b_and 0)
+    a := a c_at ((regName c_at " nibble 1", -0.135 -0.059 c_at zpos, 0.050 0.002 0.018, co:nibbleDark) h:b_and 0)
+    a := a c_at ((regName c_at " nibble 2", -0.080 -0.059 c_at zpos, 0.050 0.002 0.018, co:nibbleLight) h:b_and 0)
+    a := a c_at ((regName c_at " nibble 3", -0.025 -0.059 c_at zpos, 0.050 0.002 0.018, co:nibbleDark) h:b_and 0)
+    # Indicator lamps across the 4 nibbles (16 lamps per row)
+    l_ampAt := { (bitNum, xpos, isLit) z1 ->
+      ("lamp " c_at regName c_at " " c_at bitNum, xpos c_at -0.061 c_at zpos, isLit) h:l_amp 0
+    }
+    # Nibble 0
+    a := a c_at (("0", -0.208, 1 s_elect litPattern) l_ampAt 0) c_at (("1", -0.196, 2 s_elect litPattern) l_ampAt 0)
+    a := a c_at (("2", -0.184, 3 s_elect litPattern) l_ampAt 0) c_at (("3", -0.172, 4 s_elect litPattern) l_ampAt 0)
+    # Nibble 1
+    a := a c_at (("4", -0.153, 5 s_elect litPattern) l_ampAt 0) c_at (("5", -0.141, 6 s_elect litPattern) l_ampAt 0)
+    a := a c_at (("6", -0.129, 7 s_elect litPattern) l_ampAt 0) c_at (("7", -0.117, 8 s_elect litPattern) l_ampAt 0)
+    # Nibble 2
+    a := a c_at (("8", -0.098, 9 s_elect litPattern) l_ampAt 0) c_at (("9", -0.086, 10 s_elect litPattern) l_ampAt 0)
+    a := a c_at (("10", -0.074, 11 s_elect litPattern) l_ampAt 0) c_at (("11", -0.062, 12 s_elect litPattern) l_ampAt 0)
+    # Nibble 3
+    a := a c_at (("12", -0.043, 13 s_elect litPattern) l_ampAt 0) c_at (("13", -0.031, 14 s_elect litPattern) l_ampAt 0)
+    a := a c_at (("14", -0.019, 15 s_elect litPattern) l_ampAt 0) c_at (("15", -0.007, 16 s_elect litPattern) l_ampAt 0)
+    a
+  }
+
+  # Build the 6 register rows with authentic active execution states:
+  # Instruction Address: 0x082A
+  t := t c_at (("IAR", 0.065, 0 0 0 0  1 0 0 0  0 0 1 0  1 0 1 0) r_ow 0)
+  # Storage Address: 0x082A
+  t := t c_at (("SAR", 0.038, 0 0 0 0  1 0 0 0  0 0 1 0  1 0 1 0) r_ow 0)
+  # Storage Buffer: 0x7400
+  t := t c_at (("SBR", 0.011, 0 1 1 1  0 1 0 0  0 0 0 0  0 0 0 0) r_ow 0)
+  # Arithmetic Factor: 0x0001
+  t := t c_at (("AFR", -0.016, 0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 1) r_ow 0)
+  # Accumulator: 0x1130 (IBM 1130 in hex!)
+  t := t c_at (("ACC", -0.043, 0 0 0 1  0 0 0 1  0 0 1 1  0 0 0 0) r_ow 0)
+  # Accumulator Extension: 0x0000
+  t := t c_at (("EXT", -0.070, 0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0) r_ow 0)
+
+  ### 4. Center Timing & Control Lamps (6 rows)
+  # Rows match the register rows: z = 0.065, 0.038, 0.011, -0.016, -0.043, -0.070
+  # Spanning x = 0.030 to 0.150
+  c_lamp := { (name, xpos, zpos, lit) z0 ->
+    ("lamp " c_at name, xpos c_at -0.060 c_at zpos, lit) h:l_amp 0
+  }
+  # Row 1: T0 to T7
+  t := t c_at (("T0", 0.035, 0.065, 1) c_lamp 0) c_at (("T1", 0.050, 0.065, 0) c_lamp 0)
+  t := t c_at (("T2", 0.065, 0.065, 0) c_lamp 0) c_at (("T3", 0.080, 0.065, 0) c_lamp 0)
+  t := t c_at (("T4", 0.095, 0.065, 0) c_lamp 0) c_at (("T5", 0.110, 0.065, 0) c_lamp 0)
+  t := t c_at (("T6", 0.125, 0.065, 0) c_lamp 0) c_at (("T7", 0.140, 0.065, 0) c_lamp 0)
+
+  # Row 2: I1 I2 IX IA E1 E2 E3 X7
+  t := t c_at (("I1", 0.035, 0.038, 1) c_lamp 0) c_at (("I2", 0.050, 0.038, 0) c_lamp 0)
+  t := t c_at (("IX", 0.065, 0.038, 0) c_lamp 0) c_at (("IA", 0.080, 0.038, 0) c_lamp 0)
+  t := t c_at (("E1", 0.095, 0.038, 0) c_lamp 0) c_at (("E2", 0.110, 0.038, 0) c_lamp 0)
+  t := t c_at (("E3", 0.125, 0.038, 0) c_lamp 0) c_at (("X7", 0.140, 0.038, 0) c_lamp 0)
+
+  # Row 3: P1 P2 W Add AC SC
+  t := t c_at (("P1", 0.035, 0.011, 0) c_lamp 0) c_at (("P2", 0.055, 0.011, 0) c_lamp 0)
+  t := t c_at (("W", 0.080, 0.011, 1) c_lamp 0) c_at (("Add", 0.105, 0.011, 0) c_lamp 0)
+  t := t c_at (("AC", 0.125, 0.011, 0) c_lamp 0) c_at (("SC", 0.145, 0.011, 0) c_lamp 0)
+
+  # Row 4: AS TC ZR
+  t := t c_at (("AS", 0.105, -0.016, 1) c_lamp 0) c_at (("TC", 0.125, -0.016, 0) c_lamp 0)
+  t := t c_at (("ZR", 0.145, -0.016, 0) c_lamp 0)
+
+  # Row 5: 1 2 3 4 5 6
+  t := t c_at (("S1", 0.035, -0.043, 0) c_lamp 0) c_at (("S2", 0.055, -0.043, 1) c_lamp 0)
+  t := t c_at (("S3", 0.075, -0.043, 0) c_lamp 0) c_at (("S4", 0.095, -0.043, 0) c_lamp 0)
+  t := t c_at (("S5", 0.115, -0.043, 0) c_lamp 0) c_at (("S6", 0.135, -0.043, 0) c_lamp 0)
+
+  # Row 6: 7 8 9 10 11 12
+  t := t c_at (("S7", 0.035, -0.070, 0) c_lamp 0) c_at (("S8", 0.055, -0.070, 0) c_lamp 0)
+  t := t c_at (("S9", 0.075, -0.070, 0) c_lamp 0) c_at (("S10", 0.095, -0.070, 0) c_lamp 0)
+  t := t c_at (("S11", 0.115, -0.070, 0) c_lamp 0) c_at (("S12", 0.135, -0.070, 0) c_lamp 0)
+
+  ### 5. Right Operations & Control Area
+  # Spanning x = 0.170 to 0.270
+  # Row 1: OPERATION REGISTER (bits 0 to 4)
+  t := t c_at (("OP0", 0.210, 0.065, 0) c_lamp 0) c_at (("OP1", 0.225, 0.065, 1) c_lamp 0)
+  t := t c_at (("OP2", 0.240, 0.065, 1) c_lamp 0) c_at (("OP3", 0.255, 0.065, 1) c_lamp 0)
+  t := t c_at (("OP4", 0.270, 0.065, 0) c_lamp 0)
+
+  # Row 2: OPERATION FLAGS (F5 T6 T7 M8 M9)
+  t := t c_at (("F5", 0.210, 0.038, 0) c_lamp 0) c_at (("T6", 0.225, 0.038, 1) c_lamp 0)
+  t := t c_at (("T7", 0.240, 0.038, 0) c_lamp 0) c_at (("M8", 0.255, 0.038, 0) c_lamp 0)
+  t := t c_at (("M9", 0.270, 0.038, 0) c_lamp 0)
+
+  # Row 3: INDEX REGISTER (1 2 3)
+  t := t c_at (("XR1", 0.230, 0.011, 1) c_lamp 0) c_at (("XR2", 0.248, 0.011, 0) c_lamp 0)
+  t := t c_at (("XR3", 0.266, 0.011, 0) c_lamp 0)
+
+  # Row 4: INTERRUPT LEVELS (0 1 2 3 4 5)
+  t := t c_at (("IL0", 0.200, -0.016, 0) c_lamp 0) c_at (("IL1", 0.215, -0.016, 1) c_lamp 0)
+  t := t c_at (("IL2", 0.230, -0.016, 0) c_lamp 0) c_at (("IL3", 0.245, -0.016, 0) c_lamp 0)
+  t := t c_at (("IL4", 0.260, -0.016, 0) c_lamp 0) c_at (("IL5", 0.275, -0.016, 0) c_lamp 0)
+
+  # Row 5: CYCLE CONTROL COUNTER (32 16 8 4 2 1)
+  t := t c_at (("CC32", 0.200, -0.043, 0) c_lamp 0) c_at (("CC16", 0.215, -0.043, 0) c_lamp 0)
+  t := t c_at (("CC8", 0.230, -0.043, 1) c_lamp 0) c_at (("CC4", 0.245, -0.043, 0) c_lamp 0)
+  t := t c_at (("CC2", 0.260, -0.043, 0) c_lamp 0) c_at (("CC1", 0.275, -0.043, 0) c_lamp 0)
+
+  # Row 6: CONDITION REGISTER (C O)
+  t := t c_at (("CR_C", 0.220, -0.070, 0) c_lamp 0) c_at (("CR_O", 0.245, -0.070, 0) c_lamp 0)
+
+  t c_at bp:ungroup
+}

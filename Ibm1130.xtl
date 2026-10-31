@@ -1,0 +1,45 @@
+## Ibm1130.xtl -- Top-level assembly, materials refinement, studio
+## lighting, multi-angle camera views, and export targets for the
+## IBM 1130 computing system 3D model.
+##
+## Front faces -Y, +Z is up, +X is right, -X is left.
+## Import: "bm:" u_se< "Ibm1130"
+
+"bp:" u_se< "Bpy"
+"co:" u_se< "Ibm1130Colors"
+"dk:" u_se< "Ibm1130Desk"
+"kb:" u_se< "Ibm1130Keyboard"
+"pr:" u_se< "Ibm1130Printer"
+"dp:" u_se< "Ibm1130DisplayPanel"
+"dd:" u_se< "Ibm1130DiskDrive"
+
+### The IBM 1130 Model Assembly
+
+## The complete piece: desk, keyboard, printer, display, and disk drive
+l:m_odel := { z ->
+  t := (bp:p_iece "ibm1130")
+  t := t c_at (dk:d_eskParts 0)
+  t := t c_at (kb:k_eyboardParts 0)
+  t := t c_at (pr:p_rinterParts 0)
+  t := t c_at (dp:d_isplayParts 0)
+  t c_at (dd:d_iskParts 0)
+}
+
+### PBR Materials Enhancement & Camera Setup (Blender Script Extension)
+
+l:pbrAndCameras := "for m in bpy.data.materials:\n    if not m.use_nodes:\n        continue\n    p = m.node_tree.nodes.get(\"Principled BSDF\")\n    if not p:\n        continue\n    n = m.name.lower()\n    if \"chrome\" in n or \"silver\" in n or \"lever\" in n or \"spindle\" in n or \"rail\" in n or \"typeball\" in n or \"standoff\" in n or \"hex\" in n:\n        p.inputs[\"Metallic\"].default_value = 0.95\n        p.inputs[\"Roughness\"].default_value = 0.15\n    elif \"acrylic\" in n or \"cover\" in n or \"dust\" in n:\n        p.inputs[\"Roughness\"].default_value = 0.08\n        p.inputs[\"Base Color\"].default_value = (0.10, 0.12, 0.15, 1.0)\n        if \"Transmission Weight\" in p.inputs:\n            p.inputs[\"Transmission Weight\"].default_value = 0.85\n        elif \"Transmission\" in p.inputs:\n            p.inputs[\"Transmission\"].default_value = 0.85\n        if \"Alpha\" in p.inputs:\n            p.inputs[\"Alpha\"].default_value = 0.35\n        m.blend_method = \"BLEND\"\n        if hasattr(m, \"surface_render_method\"):\n            m.surface_render_method = \"BLENDED\"\n    elif \"blue\" in n:\n        p.inputs[\"Roughness\"].default_value = 0.28\n    elif \"cream\" in n or \"top\" in n:\n        p.inputs[\"Roughness\"].default_value = 0.35\n    elif \"charcoal\" in n or \"cabinet\" in n or \"chassis\" in n or \"body\" in n:\n        p.inputs[\"Roughness\"].default_value = 0.58\n    elif \"lamp\" in n or \"status\" in n:\n        p.inputs[\"Roughness\"].default_value = 0.20\n\nkey = bpy.data.objects.new(\"light_key\", bpy.data.lights.new(\"light_key\", type=\"AREA\"))\nkey.data.energy = 42.0\nkey.data.size = 1.6\nkey.location = (1.6, -2.2, 2.3)\nkey.rotation_euler = (math.radians(45), math.radians(10), math.radians(25))\nscene.collection.objects.link(key)\n\nfill = bpy.data.objects.new(\"light_fill\", bpy.data.lights.new(\"light_fill\", type=\"AREA\"))\nfill.data.energy = 20.0\nfill.data.size = 2.0\nfill.location = (-1.8, -1.8, 1.8)\nfill.rotation_euler = (math.radians(40), math.radians(-15), math.radians(-35))\nscene.collection.objects.link(fill)\n\nrim = bpy.data.objects.new(\"light_rim\", bpy.data.lights.new(\"light_rim\", type=\"AREA\"))\nrim.data.energy = 24.0\nrim.data.size = 1.4\nrim.location = (0.0, 1.8, 2.2)\nrim.rotation_euler = (math.radians(-45), 0.0, math.radians(180))\nscene.collection.objects.link(rim)\n\ndef add_cam(name, loc, aim_at, lens=45):\n    c = bpy.data.objects.new(name, bpy.data.cameras.new(name))\n    c.data.lens = lens\n    c.data.clip_end = 200.0\n    c.location = loc\n    scene.collection.objects.link(c)\n    trk = c.constraints.new(\"TRACK_TO\")\n    tgt = bpy.data.objects.new(name + \"_target\", None)\n    tgt.location = aim_at\n    scene.collection.objects.link(tgt)\n    trk.target = tgt\n    trk.track_axis = \"TRACK_NEGATIVE_Z\"\n    trk.up_axis = \"UP_Y\"\n    return c\n\ncam_overview = add_cam(\"cam_overview\", (2.05, -2.55, 1.80), (0.0, -0.05, 0.72), lens=42)\ncam_operator = add_cam(\"cam_operator\", (-0.31, -1.18, 1.16), (-0.31, 0.04, 0.86), lens=36)\ncam_display = add_cam(\"cam_display\", (-0.37, -0.92, 1.15), (-0.37, 0.24, 1.07), lens=68)\ncam_keyboard = add_cam(\"cam_keyboard\", (-0.31, -0.78, 1.05), (-0.31, -0.23, 0.71), lens=52)\ncam_disk = add_cam(\"cam_disk\", (0.37, -0.80, 1.14), (0.37, 0.06, 0.74), lens=48)\n\ndef render_view(cam, filename):\n    scene.camera = cam\n    scene.render.image_settings.media_type = \"IMAGE\"\n    scene.render.image_settings.file_format = \"PNG\"\n    scene.render.filepath = os.path.join(out, filename)\n    bpy.ops.render.render(write_still=True)\n\nscene.camera = cam_overview\nrender_view(cam_overview, \"overview.png\")\nrender_view(cam_operator, \"operator.png\")\nrender_view(cam_display, \"display.png\")\nrender_view(cam_keyboard, \"keyboard.png\")\nrender_view(cam_disk, \"disk.png\")\n"
+
+### The Complete Scene Script
+
+## (width, height) bm:s_cene 0: the complete Blender script
+l:s_cene := { (w, h) z ->
+  t := bp:head
+  t := t c_at (l:m_odel 0)
+  t := t c_at ((0.0 0.0 0.0, 12.0, co:floorGray) bp:g_round 0)
+  t := t c_at ((0.52 0.58 0.68, 1.0) bp:l_ights 0)
+  t := t c_at ((w, h, 30) bp:s_etup 0)
+  t := t c_at (bp:s_amples 32)
+  t := t c_at l:pbrAndCameras
+  t := t c_at (bp:e_xports "ibm1130")
+  t c_at bp:report
+}

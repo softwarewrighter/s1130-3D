@@ -1,0 +1,78 @@
+## Ibm1130Desk.xtl -- Desk frame, pedestals, tabletop, caster wheels,
+## and cabinet panels for the IBM 1130 computing system.
+## Dimensions match IBM specifications (58.5" wide x 29.0" deep x 29.1" high desk).
+##
+## Front faces -Y, +Z is up, +X is right (pedestal/disk), -X is left (console/keyboard).
+## Import: "dk:" u_se< "Ibm1130Desk"
+
+"bp:" u_se< "Bpy"
+"co:" u_se< "Ibm1130Colors"
+
+flat := 0.0 0.0 0.0
+
+### Caster Wheels
+
+# (name, at) dk:c_aster 0: a swivel industrial caster wheel at at (x y z)
+h:c_aster := { (name, at) z ->
+  t := ((name c_at " mount", at + 0.0 0.0 0.02, 0.06 0.06 0.025, flat, co:charcoalCabinet, 0.0) bp:b_ox 0)
+  t := t c_at ((name c_at " fork", at + 0.0 0.0 0.01, 0.045 0.04 0.02, flat, co:chromeSilver, 0.0) bp:b_ox 0)
+  t c_at ((name c_at " wheel", at + 0.0 0.0 -0.01, 0.032 0.032 0.024, 90.0 0.0 0.0, co:charcoalCabinet, 0.0) bp:c_ylinder 0)
+}
+
+### Louver Slats (Ventilation Grille)
+
+# horizontal louver slat across the upper blue door grille
+h:l_ouver := { (n, zpos) z ->
+  ("grille louver " c_at n, 0.405 -0.370 c_at zpos, 0.56 0.005 0.005, -20.0 0.0 0.0, co:charcoalCabinet, 0.0) bp:b_ox 0
+}
+
+### The Desk Assembly
+
+l:d_eskParts := { z ->
+  # Tabletop Sections with cutout well for the keyboard console
+  # 1. Right tabletop (over the disk & electronics pedestal)
+  t := (("desk top right", 0.402 0.0 0.7225, 0.682 0.737 0.035, flat, co:desktopCream, 0.0) bp:b_ox 0)
+  # 2. Left rear tabletop (under/behind console printer)
+  t := t c_at (("desk top left rear", -0.342 0.139 0.7225, 0.802 0.458 0.035, flat, co:desktopCream, 0.0) bp:b_ox 0)
+  # 3. Left side tabletop margin
+  t := t c_at (("desk top left side", -0.706 -0.229 0.7225, 0.074 0.278 0.035, flat, co:desktopCream, 0.0) bp:b_ox 0)
+
+  # Desk perimeter trim
+  t := t c_at (("desk trim front right", 0.402 -0.370 0.7225, 0.684 0.005 0.037, flat, co:deskEdgeTrim, 0.0) bp:b_ox 0)
+  t := t c_at (("desk trim front left", -0.706 -0.370 0.7225, 0.076 0.005 0.037, flat, co:deskEdgeTrim, 0.0) bp:b_ox 0)
+  t := t c_at (("desk trim back", 0.0 0.370 0.7225, 1.490 0.005 0.037, flat, co:deskEdgeTrim, 0.0) bp:b_ox 0)
+  t := t c_at (("desk trim left", -0.744 0.0 0.7225, 0.005 0.739 0.037, flat, co:deskEdgeTrim, 0.0) bp:b_ox 0)
+  t := t c_at (("desk trim right", 0.744 0.0 0.7225, 0.005 0.739 0.037, flat, co:deskEdgeTrim, 0.0) bp:b_ox 0)
+
+  # Kickplates (recessed base plinth)
+  t := t c_at (("kickplate right", 0.405 0.0 0.045, 0.63 0.68 0.07, flat, co:charcoalCabinet, 0.0) bp:b_ox 0)
+  t := t c_at (("kickplate left rear", -0.325 0.26 0.045, 0.76 0.16 0.07, flat, co:charcoalCabinet, 0.0) bp:b_ox 0)
+  t := t c_at (("kickplate left end", -0.715 0.0 0.045, 0.04 0.68 0.07, flat, co:charcoalCabinet, 0.0) bp:b_ox 0)
+
+  # Caster wheels under base corners
+  t := t c_at (("caster front right", 0.67 -0.28 0.035) h:c_aster 0)
+  t := t c_at (("caster front left", -0.67 -0.28 0.035) h:c_aster 0)
+  t := t c_at (("caster rear right", 0.67 0.28 0.035) h:c_aster 0)
+  t := t c_at (("caster rear left", -0.67 0.28 0.035) h:c_aster 0)
+
+  # Right Pedestal: outer walls, rear panel, divider
+  t := t c_at (("pedestal right side", 0.736 0.0 0.3925, 0.014 0.725 0.625, flat, co:charcoalCabinet, 0.0) bp:b_ox 0)
+  t := t c_at (("pedestal divider left", 0.055 0.0 0.3925, 0.014 0.725 0.625, flat, co:charcoalCabinet, 0.0) bp:b_ox 0)
+  t := t c_at (("pedestal rear panel", 0.405 0.364 0.3925, 0.648 0.012 0.625, flat, co:charcoalCabinet, 0.0) bp:b_ox 0)
+
+  # Left Section: outer left side panel and knee-hole modesty panel
+  t := t c_at (("pedestal left side", -0.736 0.0 0.3925, 0.014 0.725 0.625, flat, co:charcoalCabinet, 0.0) bp:b_ox 0)
+  t := t c_at (("modesty panel rear", -0.340 0.260 0.4125, 0.780 0.016 0.585, flat, co:charcoalCabinet, 0.0) bp:b_ox 0)
+
+  # Right Pedestal Front Door: The Signature IBM Blue Panel!
+  t := t c_at (("panel blue front", 0.405 -0.364 0.3925, 0.635 0.012 0.615, flat, co:ibmBlue, 0.0) bp:b_ox 0)
+
+  # Ventilation Grille at top of the blue door
+  t := t c_at (("grille backing", 0.405 -0.368 0.635, 0.58 0.006 0.080, flat, co:ibmBlueGrille, 0.0) bp:b_ox 0)
+  t := t c_at (("1", 0.605) h:l_ouver 0) c_at (("2", 0.615) h:l_ouver 0) c_at (("3", 0.625) h:l_ouver 0)
+  t := t c_at (("4", 0.635) h:l_ouver 0) c_at (("5", 0.645) h:l_ouver 0) c_at (("6", 0.655) h:l_ouver 0)
+  t := t c_at (("7", 0.665) h:l_ouver 0)
+
+  # Blue door latch / handle
+  t c_at (("door latch handle", 0.10 -0.372 0.655, 0.022 0.008 0.040, flat, co:chromeSilver, 0.0) bp:b_ox 0)
+}
