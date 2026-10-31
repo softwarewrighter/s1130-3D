@@ -13,7 +13,8 @@ flat := 0.0 0.0 0.0
 
 # (name, at, up) pr:s_witch 0: a miniature toggle switch (up=1, down=0)
 h:s_witch := { (name, at, up) z ->
-  deg := (f_loat up) * 50.0 - 25.0
+  # The lever states are 45 degrees up or down from vertical.
+  deg := (f_loat up) * 90.0 - 45.0
   t := ((name c_at " bushing", at, 0.010 0.006 0.010, flat, co:chromeSilver, 0.0) bp:b_ox 0)
   t c_at ((name c_at " lever", at + 0.0 -0.010 0.003, 0.003 0.003 0.022, deg c_at 0.0 0.0, co:chromeSilver, 0.0) bp:c_ylinder 0)
 }
