@@ -18,11 +18,11 @@ render:
 view:
     @if [ -f "work/ibm1130/out/index.html" ]; then \
         if command -v open >/dev/null 2>&1; then \
-            open http://127.0.0.1:8000/ >/dev/null 2>&1 || true; \
+            open http://127.0.0.1:5823/ >/dev/null 2>&1 || true; \
         elif command -v xdg-open >/dev/null 2>&1; then \
-            xdg-open http://127.0.0.1:8000/ >/dev/null 2>&1 || true; \
+            xdg-open http://127.0.0.1:5823/ >/dev/null 2>&1 || true; \
         fi; \
-        echo "Viewer: http://127.0.0.1:8000/ (run 'just serve' in another terminal if it is not already running)"; \
+        echo "Viewer: http://127.0.0.1:5823/ (run 'just serve' in another terminal if it is not already running)"; \
     else \
         echo "Run 'just render' first to generate the models and viewer."; \
     fi
@@ -30,7 +30,7 @@ view:
 # Serve the generated viewer over HTTP. Keep this terminal open while viewing.
 serve:
     @if [ -f "work/ibm1130/out/index.html" ]; then \
-        python3 -m http.server 8000 --directory work/ibm1130/out; \
+        python3 -m http.server 5823 --directory work/ibm1130/out; \
     else \
         echo "Run 'just render' first to generate the models and viewer."; \
     fi
@@ -38,8 +38,8 @@ serve:
 # Serve the viewer and open it in the browser. Press Ctrl-C to stop serving.
 view-serve:
     @if [ -f "work/ibm1130/out/index.html" ]; then \
-        (sleep 1; if command -v open >/dev/null 2>&1; then open http://127.0.0.1:8000/; elif command -v xdg-open >/dev/null 2>&1; then xdg-open http://127.0.0.1:8000/; fi) >/dev/null 2>&1 & \
-        python3 -m http.server 8000 --directory work/ibm1130/out; \
+        (sleep 1; if command -v open >/dev/null 2>&1; then open http://127.0.0.1:5823/; elif command -v xdg-open >/dev/null 2>&1; then xdg-open http://127.0.0.1:5823/; fi) >/dev/null 2>&1 & \
+        python3 -m http.server 5823 --directory work/ibm1130/out; \
     else \
         echo "Run 'just render' first to generate the models and viewer."; \
     fi
