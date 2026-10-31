@@ -104,6 +104,8 @@ This serves [`work/ibm1130/out/index.html`](file:///Users/mike/github/softwarewr
 
 Use mouse drag to orbit, right-drag to pan, and the scroll wheel or trackpad to zoom. The viewer also provides explicit **Zoom In** and **Zoom Out** buttons for close inspection. Keyboard controls are `W`/`S` to zoom, `A`/`D` or left/right arrows to orbit horizontally, up/down arrows to orbit vertically, `I`/`K` to pan up/down, Space to toggle auto-rotate, and `R` to reset the overview. The **Pause Rotation** button toggles auto-rotate visibly.
 
+The disk/CE area is modeled with a white right-hinged cover, recessed CE controls, and an exported `open` animation. Use the **Open CE Cover** button to raise the cover nearly 90 degrees.
+
 ### 3. Generated Files (`work/ibm1130/out/`)
 - **`ibm1130.glb`**: Binary glTF 2.0 (1.1 MB) containing all 440 named meshes, materials, and hierarchy.
 - **`ibm1130.blend`**: Native Blender scene with cameras, materials, and lights.
