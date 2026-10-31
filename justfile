@@ -12,6 +12,7 @@ default:
 # Render the 3D model, multi-angle stills, and export .glb, .blend, .obj
 render:
     XETAL_PATH="{{lib_dir}}:." {{xetal_bin}} --ext {{ext_dir}} run make-ibm1130.xtl
+    @node scripts/make-open-glb.js work/ibm1130/out/ibm1130.glb work/ibm1130/out/ibm1130-open.glb
     @if [ ! -f "work/ibm1130/out/ibm1130-open.glb" ]; then \
         echo "Render did not produce ibm1130-open.glb; Blender may have crashed."; \
         exit 1; \
