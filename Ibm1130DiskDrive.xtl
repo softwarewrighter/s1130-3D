@@ -15,7 +15,7 @@ flat := 0.0 0.0 0.0
 # (name, at) dd:t_oggle 0: miniature CE toggle switch
 h:t_oggle := { (name, at) z ->
   t := ((name c_at " hex nut", at, 0.012 0.012 0.005, flat, co:chromeSilver, 0.0) bp:b_ox 0)
-  t c_at ((name c_at " lever", at + 0.0 0.0 0.010, 0.003 0.003 0.018, 20.0 0.0 0.0, co:chromeSilver, 0.0) bp:c_ylinder 0)
+  t c_at ((name c_at " lever", at + 0.0 0.0 0.010, 0.003 0.003 0.018, 45.0 0.0 0.0, co:chromeSilver, 0.0) bp:c_ylinder 0)
 }
 
 ### The Disk Drive & CE Assembly

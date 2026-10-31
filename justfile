@@ -12,6 +12,10 @@ default:
 # Render the 3D model, multi-angle stills, and export .glb, .blend, .obj
 render:
     XETAL_PATH="{{lib_dir}}:." {{xetal_bin}} --ext {{ext_dir}} run make-ibm1130.xtl
+    @if [ ! -f "work/ibm1130/out/ibm1130-open.glb" ]; then \
+        echo "Render did not produce ibm1130-open.glb; Blender may have crashed."; \
+        exit 1; \
+    fi
 
 # Open the interactive 3D Web Viewer in your browser.
 # Start `just serve` first, or use `just view-serve` to do both.
