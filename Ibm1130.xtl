@@ -33,6 +33,8 @@ l:pbrAndCameras := "for m in bpy.data.materials:\n    if not m.use_nodes:\n     
 
 l:openCoverRender := "bpy.data.objects[\"desk top right hinge\"].rotation_euler = (math.radians(-88.0), 0.0, 0.0)\nrender_view(cam_overview, \"tabletop-open.png\")\nbpy.data.objects[\"desk top right hinge\"].rotation_euler = (0.0, 0.0, 0.0)\n"
 
+l:openAssetExport := "bpy.data.objects[\"desk top right hinge\"].rotation_euler = (math.radians(-88.0), 0.0, 0.0)\nbpy.ops.export_scene.gltf(filepath=os.path.join(out, \"ibm1130-open.glb\"), export_format=\"GLB\")\nbpy.data.objects[\"desk top right hinge\"].rotation_euler = (0.0, 0.0, 0.0)\n"
+
 ### The Complete Scene Script
 
 ## (width, height) bm:s_cene 0: the complete Blender script
@@ -46,5 +48,6 @@ l:s_cene := { (w, h) z ->
   t := t c_at l:pbrAndCameras
   t := t c_at l:openCoverRender
   t := t c_at (bp:e_xports "ibm1130")
+  t := t c_at l:openAssetExport
   t c_at bp:report
 }
