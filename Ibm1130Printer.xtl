@@ -11,10 +11,8 @@ flat := 0.0 0.0 0.0
 
 ### Bit Switches (Data Switches 0 to 15)
 
-# (name, at, up) pr:s_witch 0: a miniature toggle switch (up=1, down=0)
-h:s_witch := { (name, at, up) z ->
-  # The lever states are 45 degrees up or down from vertical.
-  deg := (f_loat up) * 90.0 - 45.0
+# (name, at, deg) pr:s_witch 0: a miniature toggle switch, angled +/-45 degrees
+h:s_witch := { (name, at, deg) z ->
   t := ((name c_at " bushing", at, 0.010 0.006 0.010, flat, co:chromeSilver, 0.0) bp:b_ox 0)
   t c_at ((name c_at " lever", at + 0.0 -0.010 0.003, 0.003 0.003 0.022, deg c_at 0.0 0.0, co:chromeSilver, 0.0) bp:c_ylinder 0)
 }
@@ -57,11 +55,11 @@ l:p_rinterParts := { z ->
 
   # 16 switches from bit 0 (left) to bit 15 (right)
   # Spanning x = -0.195 to +0.195 (step 0.026)
-  s_w := { (n, xpos, state) z0 -> ("bit switch " c_at n, xpos c_at -0.168 0.050, state) h:s_witch 0 }
-  t := t c_at (("0", -0.195, 1) s_w 0) c_at (("1", -0.169, 0) s_w 0) c_at (("2", -0.143, 0) s_w 0) c_at (("3", -0.117, 1) s_w 0)
-  t := t c_at (("4", -0.091, 0) s_w 0) c_at (("5", -0.065, 0) s_w 0) c_at (("6", -0.039, 1) s_w 0) c_at (("7", -0.013, 0) s_w 0)
-  t := t c_at (("8", 0.013, 0) s_w 0) c_at (("9", 0.039, 0) s_w 0) c_at (("10", 0.065, 1) s_w 0) c_at (("11", 0.091, 0) s_w 0)
-  t := t c_at (("12", 0.117, 0) s_w 0) c_at (("13", 0.143, 0) s_w 0) c_at (("14", 0.169, 0) s_w 0) c_at (("15", 0.195, 1) s_w 0)
+  s_w := { (n, xpos, deg) z0 -> ("bit switch " c_at n, xpos c_at -0.168 0.050, deg) h:s_witch 0 }
+  t := t c_at (("0", -0.195, 45.0) s_w 0) c_at (("1", -0.169, -45.0) s_w 0) c_at (("2", -0.143, -45.0) s_w 0) c_at (("3", -0.117, 45.0) s_w 0)
+  t := t c_at (("4", -0.091, -45.0) s_w 0) c_at (("5", -0.065, -45.0) s_w 0) c_at (("6", -0.039, 45.0) s_w 0) c_at (("7", -0.013, -45.0) s_w 0)
+  t := t c_at (("8", 0.013, -45.0) s_w 0) c_at (("9", 0.039, -45.0) s_w 0) c_at (("10", 0.065, 45.0) s_w 0) c_at (("11", 0.091, -45.0) s_w 0)
+  t := t c_at (("12", 0.117, -45.0) s_w 0) c_at (("13", 0.143, -45.0) s_w 0) c_at (("14", 0.169, -45.0) s_w 0) c_at (("15", 0.195, 45.0) s_w 0)
 
   # Printer controls on the left apron (carrier return, restore)
   t := t c_at (("printer restore switch", -0.225 -0.168 0.050, 0.014 0.008 0.018, flat, co:buttonBlue, 0.0) bp:b_ox 0)
