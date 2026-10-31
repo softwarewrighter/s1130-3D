@@ -13,10 +13,33 @@ default:
 render:
     XETAL_PATH="{{lib_dir}}:." {{xetal_bin}} --ext {{ext_dir}} run make-ibm1130.xtl
 
-# Open the interactive 3D Web Viewer in your browser
+# Open the interactive 3D Web Viewer in your browser.
+# Start `just serve` first, or use `just view-serve` to do both.
 view:
     @if [ -f "work/ibm1130/out/index.html" ]; then \
-        open work/ibm1130/out/index.html 2>/dev/null || xdg-open work/ibm1130/out/index.html; \
+        if command -v open >/dev/null 2>&1; then \
+            open http://127.0.0.1:8000/ >/dev/null 2>&1 || true; \
+        elif command -v xdg-open >/dev/null 2>&1; then \
+            xdg-open http://127.0.0.1:8000/ >/dev/null 2>&1 || true; \
+        fi; \
+        echo "Viewer: http://127.0.0.1:8000/ (run 'just serve' in another terminal if it is not already running)"; \
+    else \
+        echo "Run 'just render' first to generate the models and viewer."; \
+    fi
+
+# Serve the generated viewer over HTTP. Keep this terminal open while viewing.
+serve:
+    @if [ -f "work/ibm1130/out/index.html" ]; then \
+        python3 -m http.server 8000 --directory work/ibm1130/out; \
+    else \
+        echo "Run 'just render' first to generate the models and viewer."; \
+    fi
+
+# Serve the viewer and open it in the browser. Press Ctrl-C to stop serving.
+view-serve:
+    @if [ -f "work/ibm1130/out/index.html" ]; then \
+        (sleep 1; if command -v open >/dev/null 2>&1; then open http://127.0.0.1:8000/; elif command -v xdg-open >/dev/null 2>&1; then xdg-open http://127.0.0.1:8000/; fi) >/dev/null 2>&1 & \
+        python3 -m http.server 8000 --directory work/ibm1130/out; \
     else \
         echo "Run 'just render' first to generate the models and viewer."; \
     fi
