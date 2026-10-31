@@ -102,6 +102,8 @@ just view-serve
 
 This serves [`work/ibm1130/out/index.html`](file:///Users/mike/github/softwarewrighter/s1130-3D/work/ibm1130/out/index.html) over HTTP at `http://127.0.0.1:5823/`, then opens it in your browser. Keep the terminal open while viewing and press Ctrl-C to stop the server. You can also run `just serve` in one terminal and `just view` in another. HTTP is required because browsers block the `.glb` fetch when the page is opened directly as `file://`.
 
+Use mouse drag to orbit, right-drag to pan, and the scroll wheel or trackpad to zoom. The viewer also provides explicit **Zoom In** and **Zoom Out** buttons for close inspection.
+
 ### 3. Generated Files (`work/ibm1130/out/`)
 - **`ibm1130.glb`**: Binary glTF 2.0 (1.1 MB) containing all 440 named meshes, materials, and hierarchy.
 - **`ibm1130.blend`**: Native Blender scene with cameras, materials, and lights.
