@@ -1,10 +1,8 @@
 # IBM 1130 Computing System -- 3D Models in X_eTaL & Blender
 
-![IBM 1130 Computing System](images/ibm-1130.jpg)
+![Photorealistic IBM 1130 3D model](images/s1130-3D-photoish.jpg)
 
-![IBM 1130 3D model reference photograph](images/s1130-3D-photoish.jpg)
-
-*Reference hardware: An IBM 1131 Central Processing Unit and console desk.*
+*Photorealistic interpretation of the Blender output, generated with Nano Banana 2.1.*
 
 ---
 
